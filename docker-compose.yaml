@@ -1,0 +1,58 @@
+﻿name: myfood
+
+services:
+  webapi:
+    container_name: myfood-products-webapi
+    image: myfood.products.webapi
+    build:
+      context: .
+      dockerfile: src/Postech.Fiap.Products.WebApi/Dockerfile
+    environment:
+      - 'ASPNETCORE_ENVIRONMENT=Development'
+      - 'ASPNETCORE_URLS=https://+;http://+'
+      - 'ASPNETCORE_Kestrel__Certificates__Default__Password=password123'
+      - 'ASPNETCORE_Kestrel__Certificates__Default__Path=/https/aspnetapp.pfx'
+      - 'DOTNET_USE_POLLING_FILE_WATCHER=true'
+      - 'OTEL_EXPORTER_OTLP_ENDPOINT=http://myfood-seq:5341/ingest/otlp/v1/traces'
+      - 'OTEL_EXPORTER_OTLP_PROTOCOL=http/protobuf'
+    networks:
+      - myfood-network
+    ports:
+      - "5273:80"
+      - "7288:443"
+    volumes:
+      - '$USERPROFILE\.aspnet\https:/https/'
+    depends_on:
+      - mongodb
+
+  mongodb:
+    container_name: myfood-mongodb
+    image: mongo:latest
+    restart: always
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: admin
+      MONGO_INITDB_ROOT_PASSWORD: admin123
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongodb_data:/data/db
+    networks:
+      - myfood-network
+
+  seq:
+    container_name: myfood-seq
+    image: datalust/seq:latest
+    environment:
+      - ACCEPT_EULA=Y
+    ports:
+      - 5341:5341
+      - 3380:80
+    networks:
+      - myfood-network
+
+volumes:
+  mongodb_data:
+
+networks:
+  myfood-network:
+    driver: bridge
