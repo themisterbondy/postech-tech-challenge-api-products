@@ -1,0 +1,6 @@
+﻿services:
+  postech.fiap.products.webapi:
+    image: postech.fiap.products.webapi
+    build:
+      context: .
+      dockerfile: Postech.Fiap.Products.WebApi/Dockerfile
