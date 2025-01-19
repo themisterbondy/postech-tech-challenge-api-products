@@ -1,4 +1,5 @@
-using PosTech.Fiap.Products.WebApi.Features.Products.Entities;
+
+using Postech.Fiap.Products.WebApi.Features.Products.Entities;
 
 namespace Postech.Fiap.Products.WebApi.Features.Products.Contracts;
 

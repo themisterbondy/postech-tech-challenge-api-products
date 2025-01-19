@@ -34,6 +34,10 @@ public static class DependencyInjection
         services.AddProblemDetails();
         services.AddCarter();
 
+        MongoDbContext.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
+        MongoDbContext.DatabaseName = Configuration.GetSection("MongoConnection:Database").Value;
+        MongoDbContext.IsSSL = Convert.ToBoolean(this.Configuration.GetSection("MongoConnection:IsSSL").Value);
+         
         //Example dependency injection
         //services.AddScoped<ICustomerRepository, CustomerRepository>();
 
