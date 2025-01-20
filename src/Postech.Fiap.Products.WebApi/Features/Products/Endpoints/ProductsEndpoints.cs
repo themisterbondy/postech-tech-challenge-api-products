@@ -13,6 +13,25 @@ public class ProductsEndpoints : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("/api/products");
+        
+        group.MapGet("/{id:Guid}", async (Guid id, [FromServices] IMediator mediator) =>
+            {
+                var query = new GetProductById.Query
+                {  
+                    Id = id
+                };
+
+                var result = await mediator.Send(query);
+
+                return result.IsSuccess
+                    ? Results.Ok(result.Value)
+                    : result.ToProblemDetails();
+            })
+            .WithName("GetProductById")
+            .Produces<ProductResponse>(200)
+            .WithTags("Products")
+            .WithOpenApi();
+        
 
         group.MapGet("/category", async ([FromQuery] ProductCategory request, [FromServices] IMediator mediator) =>
             {
