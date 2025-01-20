@@ -1,10 +1,17 @@
 using System.Reflection;
+using System.Text.Json.Serialization;
 using FluentValidation;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.OpenApi.Models;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization;
+using MongoDB.Bson.Serialization.Serializers;
+using MongoDB.Driver;
 using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Postech.Fiap.Products.WebApi.Common;
 using Postech.Fiap.Products.WebApi.Common.Behavior;
+using PosTech.MyFood.WebApi.Features.Products.Repositories;
 using Serilog;
 using Serilog.Events;
 using Serilog.Exceptions;
@@ -34,12 +41,17 @@ public static class DependencyInjection
         services.AddProblemDetails();
         services.AddCarter();
 
-        MongoDbContext.ConnectionString = Configuration.GetSection("MongoConnection:ConnectionString").Value;
-        MongoDbContext.DatabaseName = Configuration.GetSection("MongoConnection:Database").Value;
-        MongoDbContext.IsSSL = Convert.ToBoolean(this.Configuration.GetSection("MongoConnection:IsSSL").Value);
-         
-        //Example dependency injection
-        //services.AddScoped<ICustomerRepository, CustomerRepository>();
+        BsonSerializer.RegisterSerializer(new GuidSerializer(GuidRepresentation.Standard));
+
+        services.AddSingleton<IMongoClient>(sp =>
+            new MongoClient(configuration.GetSection("MongoDb:ConnectionString").Value));
+
+        services.AddScoped<IMongoDatabase>(sp =>
+            sp.GetRequiredService<IMongoClient>().GetDatabase(configuration.GetSection("MongoDb:Database").Value));
+
+        services.AddScoped<IProductRepository, ProductRepository>();
+
+        services.AddJsonOptions();
 
         return services;
     }
@@ -104,5 +116,20 @@ public static class DependencyInjection
 
         builder.Logging.ClearProviders();
         builder.Host.UseSerilog(Log.Logger, true);
+    }
+
+    public static IServiceCollection AddJsonOptions(this IServiceCollection services)
+    {
+        services.ConfigureHttpJsonOptions(options =>
+        {
+            options.SerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        });
+
+        services.Configure<JsonOptions>(options =>
+        {
+            options.JsonSerializerOptions.Converters.Add(new JsonStringEnumConverter());
+        });
+
+        return services;
     }
 }
