@@ -1,10 +1,28 @@
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+
 namespace Postech.Fiap.Products.WebApi.Features.Products.Entities
 {
     public class Product
     {
+        private Product(Guid id, string name, string description, decimal price, ProductCategory category,
+            string? imageUrl)
+        {
+            Id = id;
+            Name = name;
+            Description = description;
+            Price = price;
+            Category = category;
+            ImageUrl = imageUrl;
+        }
+
+        private Product()
+        {
+        }
+
         [BsonId]
-        [BsonRepresentation(BsonType.ObjectId)]
-        public string Id { get; set; }
+        [BsonGuidRepresentation(GuidRepresentation.Standard)]
+        public Guid Id { get; set; }
 
         [BsonElement("name")]
         public string Name { get; set; }
@@ -21,19 +39,8 @@ namespace Postech.Fiap.Products.WebApi.Features.Products.Entities
         [BsonElement("imageUrl")]
         public string? ImageUrl { get; set; }
 
-        private Product(ProductId id, string name, string description, decimal price, ProductCategory category, string? imageUrl)
-        {
-            Id = id.ToString();
-            Name = name;
-            Description = description;
-            Price = price;
-            Category = category;
-            ImageUrl = imageUrl;
-        }
-
-        private Product() { }
-
-        public static Product? Create(ProductId id, string name, string description, decimal price, ProductCategory category, string? imageUrl)
+        public static Product? Create(Guid id, string name, string description, decimal price, ProductCategory category,
+            string? imageUrl)
         {
             return new Product(id, name, description, price, category, imageUrl);
         }
