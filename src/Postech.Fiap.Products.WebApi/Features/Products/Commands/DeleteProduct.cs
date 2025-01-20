@@ -1,6 +1,6 @@
 using FluentValidation;
-using PosTech.MyFood.WebApi.Common.Validation;
-using PosTech.MyFood.WebApi.Features.Products.Entities;
+using Postech.Fiap.Products.WebApi.Common.ResultPattern;
+using Postech.Fiap.Products.WebApi.Common.Validation;
 using PosTech.MyFood.WebApi.Features.Products.Repositories;
 
 namespace PosTech.Fiap.Products.WebApi.Features.Products.Commands;
@@ -25,7 +25,7 @@ public class DeleteProduct
     {
         public async Task<Result<Guid>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var product = await productRepository.FindByIdAsync(new ProductId(request.Id), cancellationToken);
+            var product = await productRepository.FindByIdAsync(request.Id, cancellationToken);
 
             if (product == null)
                 return Result.Failure<Guid>(Error.NotFound("DeleteProductHandler.Handle", "Product not found."));

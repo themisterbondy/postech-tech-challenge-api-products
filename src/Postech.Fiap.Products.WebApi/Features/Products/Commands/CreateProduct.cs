@@ -1,12 +1,13 @@
 using FluentValidation;
-using PosTech.MyFood.WebApi.Common.Validation;
-using PosTech.MyFood.WebApi.Features.Products.Contracts;
-using PosTech.MyFood.WebApi.Features.Products.Entities;
+using Postech.Fiap.Products.WebApi.Common.ResultPattern;
+using Postech.Fiap.Products.WebApi.Common.Validation;
+using Postech.Fiap.Products.WebApi.Features.Products.Contracts;
+using Postech.Fiap.Products.WebApi.Features.Products.Entities;
 using PosTech.MyFood.WebApi.Features.Products.Repositories;
 
 namespace PosTech.Fiap.Products.WebApi.Features.Products.Commands;
 
-public class CreateProduct
+public abstract class CreateProduct
 {
     public class Command : IRequest<Result<ProductResponse>>
     {
@@ -36,7 +37,7 @@ public class CreateProduct
         public async Task<Result<ProductResponse>> Handle(Command request, CancellationToken cancellationToken)
         {
             var product = await productRepository.CreateAsync(
-                Product.Create(ProductId.New(),
+                Product.Create(Guid.NewGuid(),
                     request.Name,
                     request.Description,
                     request.Price,
@@ -46,7 +47,7 @@ public class CreateProduct
 
             return Result.Success(new ProductResponse
             {
-                Id = product.Id.Value,
+                Id = product.Id,
                 Name = product.Name,
                 Description = product.Description,
                 Price = product.Price,

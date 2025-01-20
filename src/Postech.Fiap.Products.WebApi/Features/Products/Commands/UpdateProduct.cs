@@ -1,7 +1,8 @@
 using FluentValidation;
-using PosTech.MyFood.WebApi.Common.Validation;
-using PosTech.MyFood.WebApi.Features.Products.Contracts;
-using PosTech.MyFood.WebApi.Features.Products.Entities;
+using Postech.Fiap.Products.WebApi.Common.ResultPattern;
+using Postech.Fiap.Products.WebApi.Common.Validation;
+using Postech.Fiap.Products.WebApi.Features.Products.Contracts;
+using Postech.Fiap.Products.WebApi.Features.Products.Entities;
 using PosTech.MyFood.WebApi.Features.Products.Repositories;
 
 namespace PosTech.Fiap.Products.WebApi.Features.Products.Commands;
@@ -38,14 +39,15 @@ public class UpdateProduct
     {
         public async Task<Result<ProductResponse>> Handle(Command request, CancellationToken cancellationToken)
         {
-            var getProduct = await productRepository.FindByIdAsync(new ProductId(request.Id), cancellationToken);
+            var getProduct = await productRepository.FindByIdAsync(request.Id, cancellationToken);
 
             if (getProduct == null)
                 return Result.Failure<ProductResponse>(Error.NotFound("UpdateProductHandler.Handle",
                     "Product not found."));
 
             var product = await productRepository.UpdateAsync(
-                Product.Create(new ProductId(request.Id),
+                Product.Create(
+                    request.Id,
                     request.Name,
                     request.Description,
                     request.Price,
@@ -55,7 +57,7 @@ public class UpdateProduct
 
             return new ProductResponse
             {
-                Id = product.Id.Value,
+                Id = product.Id,
                 Name = product.Name,
                 Description = product.Description,
                 Price = product.Price,
