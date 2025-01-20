@@ -3,7 +3,7 @@ using Postech.Fiap.Products.WebApi.Common.Extensions;
 using PosTech.Fiap.Products.WebApi.Features.Products.Commands;
 using Postech.Fiap.Products.WebApi.Features.Products.Contracts;
 using Postech.Fiap.Products.WebApi.Features.Products.Entities;
-using PosTech.MyFood.WebApi.Features.Products.Queries;
+using PosTech.Fiap.Products.WebApi.Features.Products.Queries;
 
 namespace Postech.Fiap.Products.WebApi.Features.Products.Endpoints;
 

@@ -11,7 +11,7 @@ using OpenTelemetry.Resources;
 using OpenTelemetry.Trace;
 using Postech.Fiap.Products.WebApi.Common;
 using Postech.Fiap.Products.WebApi.Common.Behavior;
-using PosTech.MyFood.WebApi.Features.Products.Repositories;
+using PosTech.Fiap.Products.WebApi.Features.Products.Repositories;
 using Serilog;
 using Serilog.Events;
 using Serilog.Exceptions;

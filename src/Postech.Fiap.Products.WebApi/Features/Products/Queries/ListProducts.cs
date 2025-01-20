@@ -1,9 +1,9 @@
 using Postech.Fiap.Products.WebApi.Common.ResultPattern;
 using Postech.Fiap.Products.WebApi.Features.Products.Contracts;
 using Postech.Fiap.Products.WebApi.Features.Products.Entities;
-using PosTech.MyFood.WebApi.Features.Products.Repositories;
+using PosTech.Fiap.Products.WebApi.Features.Products.Repositories;
 
-namespace PosTech.MyFood.WebApi.Features.Products.Queries;
+namespace PosTech.Fiap.Products.WebApi.Features.Products.Queries;
 
 public abstract class ListProducts
 {

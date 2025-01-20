@@ -1,7 +1,7 @@
 using FluentValidation;
 using Postech.Fiap.Products.WebApi.Common.ResultPattern;
 using Postech.Fiap.Products.WebApi.Common.Validation;
-using PosTech.MyFood.WebApi.Features.Products.Repositories;
+using PosTech.Fiap.Products.WebApi.Features.Products.Repositories;
 
 namespace PosTech.Fiap.Products.WebApi.Features.Products.Commands;
 
