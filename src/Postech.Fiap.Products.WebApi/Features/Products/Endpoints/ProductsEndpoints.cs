@@ -1,12 +1,13 @@
 using Microsoft.AspNetCore.Mvc;
-using PosTech.Fiap.Products.WebApi.WebApi.Features.Products.Commands;
-using PosTech.Fiap.Products.WebApi.WebApi.Features.Products.Contracts;
-using PosTech.Fiap.Products.WebApi.Features.Products.Entities;
-using PosTech.Fiap.Products.WebApi.Features.Products.Queries;
-
+using Postech.Fiap.Products.WebApi.Common.Extensions;
+using PosTech.Fiap.Products.WebApi.Features.Products.Commands;
+using Postech.Fiap.Products.WebApi.Features.Products.Contracts;
+using Postech.Fiap.Products.WebApi.Features.Products.Entities;
+using PosTech.MyFood.WebApi.Features.Products.Queries;
 
 namespace Postech.Fiap.Products.WebApi.Features.Products.Endpoints;
-   [ExcludeFromCodeCoverage]
+
+[ExcludeFromCodeCoverage]
 public class ProductsEndpoints : ICarterModule
 {
     public void AddRoutes(IEndpointRouteBuilder app)
@@ -54,7 +55,7 @@ public class ProductsEndpoints : ICarterModule
             .WithTags("Products")
             .WithOpenApi();
 
-        group.MapPut("/{id:guid}",
+        group.MapPut("/{id:Guid}",
                 async (Guid id, [FromBody] ProductRequest request, [FromServices] IMediator mediator) =>
                 {
                     var command = new UpdateProduct.Command
@@ -79,7 +80,7 @@ public class ProductsEndpoints : ICarterModule
             .WithTags("Products")
             .WithOpenApi();
 
-        group.MapDelete("/{id:guid}", async (Guid id, [FromServices] IMediator mediator) =>
+        group.MapDelete("/{id:Guid}", async (Guid id, [FromServices] IMediator mediator) =>
             {
                 var command = new DeleteProduct.Command
                 {
