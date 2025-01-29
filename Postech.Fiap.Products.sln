@@ -10,6 +10,10 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F1438491-8EFE-4BBE-A071-50F731089C9D}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{BCB1A5DF-FDCB-4AE7-99C0-055AFC477B90}"
+	ProjectSection(SolutionItems) = preProject
+		PosTech.MyFood.WebApi.UnitTests.csproj = PosTech.MyFood.WebApi.UnitTests.csproj
+		Global.cs = Global.cs
+	EndProjectSection
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Postech.Fiap.Products.WebApi.UnitTest", "test\Postech.Fiap.Products.WebApi.UnitTest\Postech.Fiap.Products.WebApi.UnitTest.csproj", "{6B33110D-32A9-402A-A977-9EDE0D3B1E3B}"
 EndProject
