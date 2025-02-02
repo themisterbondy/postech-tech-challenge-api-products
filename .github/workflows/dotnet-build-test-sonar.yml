@@ -12,7 +12,7 @@ env:
 
   # Configurações do Projeto
   SOLUTION_FILE: 'Postech.Fiap.Products.sln'
-  TEST_PROJECT: 'test/Postech.Fiap.Products.WebApi.UnitTests'
+  TEST_PROJECT: 'test/Postech.Fiap.Products.WebApi.UnitTest'
   SONAR_PROJECT_KEY: 'themisterbondy_postech-tech-challenge-api-products'
 
   # Configurações do SonarCloud
