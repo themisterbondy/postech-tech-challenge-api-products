@@ -10,6 +10,7 @@ namespace PosTech.MyFood.WebApi.UnitTests.Features.Products.Queries;
 public class ListProductsTests
 {
     private readonly ListProducts.ListProductsHandler _handler;
+    private readonly GetProductById.GetProductByIdHandler _gethandler;
     private readonly IProductRepository _productRepository;
 
     public ListProductsTests()
@@ -43,6 +44,8 @@ public class ListProductsTests
         result.Value.Products.Should().HaveCount(2);
         result.Value.Products.Should().BeEquivalentTo(products, options => options.ExcludingMissingMembers());
     }
+    
+
 
     [Fact]
     public async Task Handle_ShouldReturnAllProducts_WhenCategoryIsNotProvided()

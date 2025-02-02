@@ -12,7 +12,7 @@ public abstract class GetProductById
         public Guid Id { get; set; }
     }
 
-    public class ListProductsHandler(IProductRepository productRepository)
+    public class GetProductByIdHandler(IProductRepository productRepository)
         : IRequestHandler<Query, Result<ProductResponse>>
     {
         public async Task<Result<ProductResponse>> Handle(Query request, CancellationToken cancellationToken)
