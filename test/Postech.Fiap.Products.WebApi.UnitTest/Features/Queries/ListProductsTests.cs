@@ -1,40 +1,70 @@
 using FluentAssertions;
-using Mongo2Go;
-using MongoDB.Driver;
+using NSubstitute;
 using Postech.Fiap.Products.WebApi.Features.Products.Entities;
+using PosTech.Fiap.Products.WebApi.Features.Products.Queries;
 using PosTech.Fiap.Products.WebApi.Features.Products.Repositories;
 using Postech.Fiap.Products.WebApi.UnitTest.Features.Mocks;
 
-namespace Postech.Fiap.Products.WebApi.UnitTest.Features.Queries;
+namespace PosTech.MyFood.WebApi.UnitTests.Features.Products.Queries;
 
-
-public class ProductRepositoryTests
+public class ListProductsTests
 {
-    private readonly MongoDbRunner _runner;
-    private readonly IMongoDatabase _database;
-    private readonly ProductRepository _repository;
-    
-    
-    public ProductRepositoryTests()
+    private readonly ListProducts.ListProductsHandler _handler;
+    private readonly IProductRepository _productRepository;
+
+    public ListProductsTests()
     {
-        _runner = MongoDbRunner.Start();
-        var client = new MongoClient(_runner.ConnectionString);
-        _database = client.GetDatabase("TestDatabase");
-        _repository = new ProductRepository(_database);
+        _productRepository = Substitute.For<IProductRepository>();
+        _handler = new ListProducts.ListProductsHandler(_productRepository);
     }
 
     [Fact]
-    public async Task FindByIdAsync_ShouldReturnProduct_WhenProductExists()
+    public async Task Handle_ShouldReturnProducts_WhenCategoryIsProvided()
     {
         // Arrange
-        var product = ProductMocks.GenerateValidProduct();
-        await _repository.CreateAsync(product, CancellationToken.None);
+        var category = ProductCategory.Lanche;
+        var products = new List<Product>
+        {
+            ProductMocks.GenerateValidProduct(),
+            ProductMocks.GenerateValidProduct()
+
+        };
+
+        _productRepository.FindByCategoryAsync(category, Arg.Any<CancellationToken>()).Returns(products);
+
+        var query = new ListProducts.Query { Category = category };
 
         // Act
-        var result = await _repository.FindByIdAsync(product.Id, CancellationToken.None);
+        var result = await _handler.Handle(query, CancellationToken.None);
 
         // Assert
         result.Should().NotBeNull();
-        result.Should().BeEquivalentTo(product);
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Products.Should().HaveCount(2);
+        result.Value.Products.Should().BeEquivalentTo(products, options => options.ExcludingMissingMembers());
+    }
+
+    [Fact]
+    public async Task Handle_ShouldReturnAllProducts_WhenCategoryIsNotProvided()
+    {
+        // Arrange
+        var products = new List<Product>
+        {
+            ProductMocks.GenerateValidProduct(),
+            ProductMocks.GenerateValidProduct()
+        };
+
+        _productRepository.FindByCategoryAsync(null, Arg.Any<CancellationToken>()).Returns(products);
+
+        var query = new ListProducts.Query { Category = null };
+
+        // Act
+        var result = await _handler.Handle(query, CancellationToken.None);
+
+        // Assert
+        result.Should().NotBeNull();
+        result.IsSuccess.Should().BeTrue();
+        result.Value.Products.Should().HaveCount(2);
+        result.Value.Products.Should().BeEquivalentTo(products, options => options.ExcludingMissingMembers());
     }
 }

@@ -38,5 +38,20 @@ public class ProductRepositoryTests
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(product);
     }
+    
+    [Fact]
+    public async Task DeleteAsync_ShouldRemoveProduct()
+    {
+        // Arrange
+        var product = ProductMocks.GenerateValidProduct();
+        await _repository.CreateAsync(product, CancellationToken.None);
+
+        // Act
+        await _repository.DeleteAsync(product, CancellationToken.None);
+        var result = await _repository.FindByIdAsync(product.Id, CancellationToken.None);
+
+        // Assert
+        result.Should().BeNull();
+    }
 
 }
