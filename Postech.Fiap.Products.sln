@@ -11,7 +11,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{F1438491-8EF
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{BCB1A5DF-FDCB-4AE7-99C0-055AFC477B90}"
 	ProjectSection(SolutionItems) = preProject
-		PosTech.MyFood.WebApi.UnitTests.csproj = PosTech.MyFood.WebApi.UnitTests.csproj
 		Global.cs = Global.cs
 	EndProjectSection
 EndProject

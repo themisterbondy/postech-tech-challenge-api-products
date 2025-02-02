@@ -30,11 +30,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Features\Repositories\" />
+      <ProjectReference Include="..\..\src\Postech.Fiap.Products.WebApi\Postech.Fiap.Products.WebApi.csproj" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\..\src\Postech.Fiap.Products.WebApi\Postech.Fiap.Products.WebApi.csproj" />
+      <Folder Include="Mocks\" />
     </ItemGroup>
 
 </Project>

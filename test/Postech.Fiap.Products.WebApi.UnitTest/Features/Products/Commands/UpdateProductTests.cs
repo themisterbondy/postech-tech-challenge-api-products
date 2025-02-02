@@ -102,8 +102,8 @@ public class UpdateProductTests
             Category = ProductCategory.Lanche,
             ImageUrl = "http://example.com/updated_image.jpg"
         };
-
-        var updatedProduct = Product.Create(Guid.NewGuid(), command.Name, command.Description, command.Price,
+        var id = Guid.NewGuid();
+        var updatedProduct = Product.Create(id, command.Name, command.Description, command.Price,
             command.Category, command.ImageUrl);
         _productRepository.UpdateAsync(Arg.Any<Product>(), Arg.Any<CancellationToken>()).Returns(updatedProduct);
 
@@ -115,7 +115,7 @@ public class UpdateProductTests
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(new ProductResponse
         {
-            Id = Guid.NewGuid(),
+            Id = id,
             Name = updatedProduct.Name,
             Description = updatedProduct.Description,
             Price = updatedProduct.Price,

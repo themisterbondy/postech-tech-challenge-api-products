@@ -1,3 +1,5 @@
+
+
 using FluentAssertions;
 using Mongo2Go;
 using MongoDB.Driver;
@@ -5,8 +7,7 @@ using Postech.Fiap.Products.WebApi.Features.Products.Entities;
 using PosTech.Fiap.Products.WebApi.Features.Products.Repositories;
 using Postech.Fiap.Products.WebApi.UnitTest.Features.Mocks;
 
-namespace Postech.Fiap.Products.WebApi.UnitTest.Features.Queries;
-
+namespace PosTech.Fiap.Products.WebApi.UnitTest.Features.ProductRepositoryTests;
 
 public class ProductRepositoryTests
 {
@@ -37,4 +38,5 @@ public class ProductRepositoryTests
         result.Should().NotBeNull();
         result.Should().BeEquivalentTo(product);
     }
+
 }

@@ -1,4 +1,7 @@
 using FluentAssertions;
+using FluentValidation.TestHelper;
+using Mongo2Go;
+using MongoDB.Driver;
 using NSubstitute;
 using PosTech.Fiap.Products.WebApi.Features.Products.Commands;
 using Postech.Fiap.Products.WebApi.Features.Products.Entities;
@@ -8,15 +11,23 @@ using PosTech.Fiap.Products.WebApi.Features.Products.Repositories;
 namespace Postech.Fiap.Products.WebApi.UnitTest.Features.Products.Commands;
 public class DeleteProductTests
 {
-    private readonly DeleteProduct.DeleteProductHandler _handler;
     private readonly IProductRepository _productRepository;
-    private readonly DeleteProductTests.DeleteProductValidator _validator;
+    private readonly MongoDbRunner _runner;
+    private readonly IMongoDatabase _database;
+    private readonly ProductRepository _repository;
+    private readonly DeleteProduct.DeleteProductValidator _validator;
+    private readonly DeleteProduct.DeleteProductHandler _handler;
 
     public DeleteProductTests()
     {
         _productRepository = Substitute.For<IProductRepository>();
-        _handler = new DeleteProduct.DeleteProductHandler(_productRepository);
+        _runner = MongoDbRunner.Start();
+        var client = new MongoClient(_runner.ConnectionString);
+        _database = client.GetDatabase("TestDatabase");
+        _repository = new ProductRepository(_database);
         _validator = new DeleteProduct.DeleteProductValidator();
+        _handler = new DeleteProduct.DeleteProductHandler(_productRepository);
+
     }
 
     [Fact]

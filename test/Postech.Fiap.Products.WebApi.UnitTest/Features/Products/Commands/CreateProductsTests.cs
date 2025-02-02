@@ -84,7 +84,8 @@ public class CreateProductTests
             ImageUrl = "http://example.com/image.jpg"
         };
 
-        var product = Product.Create(Guid.NewGuid(), command.Name, command.Description, command.Price,
+        var id = Guid.NewGuid();
+        var product = Product.Create(id, command.Name, command.Description, command.Price,
             command.Category, command.ImageUrl);
         _productRepository.CreateAsync(Arg.Any<Product>(), Arg.Any<CancellationToken>()).Returns(product);
 
@@ -96,7 +97,7 @@ public class CreateProductTests
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().BeEquivalentTo(new ProductResponse()
         {
-            Id = Guid.NewGuid(),
+            Id = id,
             Name = product.Name,
             Description = product.Description,
             Price = product.Price,
