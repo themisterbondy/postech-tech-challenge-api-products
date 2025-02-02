@@ -3,7 +3,6 @@
 using FluentAssertions;
 using Mongo2Go;
 using MongoDB.Driver;
-using Postech.Fiap.Products.WebApi.Features.Products.Entities;
 using PosTech.Fiap.Products.WebApi.Features.Products.Repositories;
 using Postech.Fiap.Products.WebApi.UnitTest.Features.Mocks;
 
@@ -13,7 +12,7 @@ public class ProductRepositoryTests
 {
     private readonly MongoDbRunner _runner;
     private readonly IMongoDatabase _database;
-    private readonly ProductRepository _repository;
+    private readonly IProductRepository _repository;
     
     
     public ProductRepositoryTests()
