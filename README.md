@@ -1,14 +1,14 @@
-# MyFood
+# MyFood-Products
 
 ## Descrição
 
-O MyFood é um sistema de pedidos de comida desenvolvido utilizando ASP.NET Core Minimal API com uma arquitetura Clean Architecture. Ele permite que os clientes montem combos personalizados e acompanhem o status de seus pedidos. O sistema também oferece funcionalidades administrativas para gerenciar produtos, categorias e campanhas promocionais.
+O MyFood-Product é um microserviço de gerenciamento de produtos desenvolvido utilizando ASP.NET Core Minimal API com uma arquitetura Clean Architecture. Ele permite que os clientes montem combos personalizados e acompanhem o status de seus pedidos. O sistema também oferece funcionalidades administrativas para gerenciar produtos, categorias e campanhas promocionais.
 
 ## Sobre o Projeto
 
 Este projeto faz parte do Tech Challenge da Pós Tech da FIAP do curso de Software Architecture. Trata-se de uma atividade obrigatória que deve ser desenvolvida em grupo e vale 90% da nota de todas as disciplinas da fase. É importante atentar-se ao prazo de entrega.
 
-O repositório do projeto pode ser encontrado [https://github.com/themisterbondy/postech-tech-challenge](https://github.com/themisterbondy/postech-tech-challenge).
+O repositório do projeto pode ser encontrado [https://github.com/themisterbondy/postech-tech-challenge-api-products.git](https://github.com/themisterbondy/postech-tech-challenge-api-products.git).
 
 ## Tecnologias Utilizadas
 
