@@ -22,7 +22,6 @@ O repositório do projeto pode ser encontrado [https://github.com/themisterbondy
 - **MediatR**
 - **FluentValidation**
 - **HealthChecks**
-- **Quartz.NET** (para gerenciamento de jobs)
 
 ## Estrutura do Projeto
 
@@ -77,43 +76,34 @@ O sistema utiliza migrações do Entity Framework Core para gerenciar o esquema 
 
 ### Passos para Utilização HELM
 
-1. Criar postgres e namespace:
-    ```shell
-    helm install myfood-postgres .\charts\postgres\ --namespace myfood-namespace --create-namespace
-    ```
 
-2. Cria pods de aplicação: 
+1. Cria pods de aplicação: 
     ```shell
     helm install myfood-webapi .\charts\webapi\ --namespace myfood-namespace
     ```
 
-3. Valida estado dos Pods
+2. Valida estado dos Pods
     ```shell
     kubectl get pods --namespace myfood-namespace --watch
     ```
 
-4. Url de acesso a aplicação 
+3. Url de acesso a aplicação 
     ```shell
     http://localhost:30000
     ```
 
-5. Visualizar Logs de pods 
+4. Visualizar Logs de pods 
     ```shell
       kubectl describe pod {{myfood-webapi}} --namespace myfood-namespace
     ```
 
-6. Deletar NameSpace ( deleta todos os recursos criados )
+5. Deletar NameSpace ( deleta todos os recursos criados )
     ```shell
     kubectl delete namespace myfood-namespace
     ```       
 
 
 ## Validação da POC
-
-### Infraestrutura
-
-- 1 instância para banco de dados
-- 1 instância para executar aplicação
 
 ## HealthChecks
 
