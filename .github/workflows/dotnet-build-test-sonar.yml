@@ -53,7 +53,7 @@ jobs:
       - name: 🔨 Compilar solução
         run: dotnet build ${{ env.SOLUTION_FILE }} --configuration Release --no-restore
 
-      - name: 🧪 Rodar testes e coletar cobertura
+      - name: 🧪 Rodar testes com cobertura e análise SonarCloud
         run: |
           dotnet sonarscanner begin \
             /k:"${{ env.SONAR_PROJECT_KEY }}" \
@@ -64,19 +64,26 @@ jobs:
 
           dotnet build ${{ env.SOLUTION_FILE }} --configuration Release --no-restore
 
-          dotnet-coverage collect "dotnet test ${{ env.TEST_PROJECT }} --configuration Release" \
+          dotnet-coverage collect "dotnet test ${{ env.TEST_PROJECT }} --configuration Release --no-restore" \
             -f xml -o "${{ env.COVERAGE_FILE }}"
 
           dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
-      - name: 📊 Publicar resultados de cobertura
+      - name: 🔍 Verificar se o report-task.txt foi gerado
+        run: |
+          if [ -f ".sonarqube/out/.sonar/report-task.txt" ]; then
+            echo "✅ Arquivo encontrado!"
+          else
+            echo "❌ Arquivo não encontrado!"
+            exit 1
+          fi
+
+      - name: 🚦 Verificar Quality Gate no SonarCloud
         id: sonarqube-quality-gate-check
         uses: sonarsource/sonarqube-quality-gate-action@master
         with:
           pollingTimeoutSec: 600
+          scanMetadataReportFile: .sonarqube/out/.sonar/report-task.txt  # ✅ Caminho corrigido
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-
-
-      - name: 📊 Status do Quality Gate
-        run: echo "The Quality Gate status is ${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }}"
+          SONAR_HOST_URL: ${{ env.SONAR_HOST_URL }}o "The Quality Gate status is ${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }}"
