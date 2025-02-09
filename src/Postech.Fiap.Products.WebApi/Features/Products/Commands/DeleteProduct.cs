@@ -1,9 +1,9 @@
 using FluentValidation;
 using Postech.Fiap.Products.WebApi.Common.ResultPattern;
 using Postech.Fiap.Products.WebApi.Common.Validation;
-using PosTech.Fiap.Products.WebApi.Features.Products.Repositories;
+using Postech.Fiap.Products.WebApi.Features.Products.Repositories;
 
-namespace PosTech.Fiap.Products.WebApi.Features.Products.Commands;
+namespace Postech.Fiap.Products.WebApi.Features.Products.Commands;
 
 public class DeleteProduct
 {

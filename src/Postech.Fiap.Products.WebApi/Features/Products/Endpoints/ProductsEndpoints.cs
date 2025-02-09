@@ -1,9 +1,9 @@
 using Microsoft.AspNetCore.Mvc;
 using Postech.Fiap.Products.WebApi.Common.Extensions;
-using PosTech.Fiap.Products.WebApi.Features.Products.Commands;
+using Postech.Fiap.Products.WebApi.Features.Products.Commands;
 using Postech.Fiap.Products.WebApi.Features.Products.Contracts;
 using Postech.Fiap.Products.WebApi.Features.Products.Entities;
-using PosTech.Fiap.Products.WebApi.Features.Products.Queries;
+using Postech.Fiap.Products.WebApi.Features.Products.Queries;
 
 namespace Postech.Fiap.Products.WebApi.Features.Products.Endpoints;
 
@@ -13,11 +13,11 @@ public class ProductsEndpoints : ICarterModule
     public void AddRoutes(IEndpointRouteBuilder app)
     {
         var group = app.MapGroup("/api/products");
-        
+
         group.MapGet("/{id:Guid}", async (Guid id, [FromServices] IMediator mediator) =>
             {
                 var query = new GetProductById.Query
-                {  
+                {
                     Id = id
                 };
 
@@ -31,7 +31,7 @@ public class ProductsEndpoints : ICarterModule
             .Produces<ProductResponse>(200)
             .WithTags("Products")
             .WithOpenApi();
-        
+
 
         group.MapGet("/category", async ([FromQuery] ProductCategory request, [FromServices] IMediator mediator) =>
             {
