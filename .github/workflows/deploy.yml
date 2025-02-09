@@ -17,7 +17,7 @@ env:
   SOLUTION_FILE: 'Postech.Fiap.Products.sln'
   TEST_PROJECT: 'test/Postech.Fiap.Products.WebApi.UnitTest'
   DOCKERFILE_PATH: 'src/Postech.Fiap.Products.WebApi/Dockerfile'
-  DOCKER_IMAGE_NAME: 'myfood-products-api'
+  DOCKER_IMAGE_NAME: 'myfood-products-webapi'
   COVERAGE_FILE: 'coverage.xml'
 
   # Configurações do SonarCloud
@@ -27,7 +27,7 @@ env:
   SONAR_POLLING_TIMEOUT: 600
 
   # Configurações do Docker
-  DOCKER_REGISTRY: '${{ secrets.DOCKER_USERNAME }}'
+  DOCKER_REGISTRY: 'themisterbondy'
   DOCKER_IMAGE_TAG: '${{ github.sha }}'
 
   # Configurações do Kubernetes
@@ -95,6 +95,12 @@ jobs:
         run: |
           echo "❌ Quality Gate falhou! Corrija os problemas antes de fazer o deploy."
           exit 1
+
+      - name: 🏷️ Definir tag da imagem Docker (SHA curto)
+        id: docker_tag
+        run: |
+          SHORT_SHA=$(echo "${GITHUB_SHA}" | cut -c1-7)
+          echo "DOCKER_IMAGE_TAG=${SHORT_SHA}" >> $GITHUB_ENV
 
       - name: 🐳 Login no Docker Hub
         uses: docker/login-action@v3
