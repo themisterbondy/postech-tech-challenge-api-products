@@ -12,7 +12,7 @@ var app = builder.Build();
 app.UseSwagger();
 app.UseSwaggerUI();
 app.MapOpenApi();
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection();
 app.UseHealthChecksConfiguration();
 app.UseExceptionHandler();
 app.UseSerilogRequestLogging();
