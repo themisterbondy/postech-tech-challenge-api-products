@@ -87,16 +87,21 @@ jobs:
             -Dsonar.test.exclusions="test/**"
             -Dsonar.verbose=true
 
-      - name: 🚦 Verificar Quality Gate no SonarCloud
-        if: success()  
+      - name: 🔍 Verificar se o arquivo de análise existe
+        id: check_report
         run: |
           if [ -f ".sonarqube/out/.sonar/report-task.txt" ]; then
-            echo "O arquivo report-task.txt existe. Verificando o Quality Gate..."
-            gh api --method POST -H "Authorization: Bearer ${{ secrets.SONAR_TOKEN }}" \
-              -f report-task.txt=".sonarqube/out/.sonar/report-task.txt"
+            echo "exists=true" >> $GITHUB_ENV
           else
-            echo "Arquivo report-task.txt não encontrado. Pulando verificação do Quality Gate."
+            echo "exists=false" >> $GITHUB_ENV
           fi
+          
+      - name: 🚦 Verificar Quality Gate no SonarCloud
+        if: env.exists == 'true'
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        with:
+          pollingTimeoutSec: 600
+          scanMetadataReportFile: .sonarqube/out/.sonar/report-task.txt
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
           SONAR_HOST_URL: ${{ env.SONAR_HOST_URL }}
