@@ -61,7 +61,7 @@ jobs:
             /o:"${{ env.SONAR_ORG }}" \
             /d:sonar.host.url="${{ env.SONAR_HOST_URL }}" \
             /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
-            /d:sonar.cs.vscoveragexml.reportsPaths="${{ env.COVERAGE_FILE }}"
+            /d:sonar.cs.vscoveragexml.reportsPaths="${{ env.COVERAGE_FILE }}" \
             /d:sonar.analysis.cache.enabled=false
 
           dotnet build ${{ env.SOLUTION_FILE }} --configuration Release --no-restore --no-incremental
