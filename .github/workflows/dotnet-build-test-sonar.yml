@@ -78,4 +78,4 @@ jobs:
           scanMetadataReportFile: .sonarqube/out/.sonar/report-task.txt
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: https://sonarcloud.io
+          SONAR_HOST_URL: ${{ env.SONAR_HOST_URL }}
