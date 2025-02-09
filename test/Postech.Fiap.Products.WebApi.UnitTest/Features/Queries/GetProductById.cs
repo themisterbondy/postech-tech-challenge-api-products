@@ -1,10 +1,10 @@
 using FluentAssertions;
 using NSubstitute;
-using PosTech.Fiap.Products.WebApi.Features.Products.Queries;
-using PosTech.Fiap.Products.WebApi.Features.Products.Repositories;
+using Postech.Fiap.Products.WebApi.Features.Products.Queries;
+using Postech.Fiap.Products.WebApi.Features.Products.Repositories;
 using Postech.Fiap.Products.WebApi.UnitTest.Features.Mocks;
 
-namespace PosTech.MyFood.WebApi.UnitTests.Features.Products.Queries;
+namespace Postech.Fiap.Products.WebApi.UnitTest.Features.Queries;
 
 public class GetProductByIdTests
 {
@@ -16,14 +16,14 @@ public class GetProductByIdTests
         _productRepository = Substitute.For<IProductRepository>();
         _handler = new GetProductById.GetProductByIdHandler(_productRepository);
     }
-    
+
     [Fact]
     public async Task Handle_ShouldReturnProducts_WhenByIsProvided()
     {
         // Arrange
         var products =
             ProductMocks.GenerateValidProduct();
-        
+
         _productRepository.FindByIdAsync(products.Id
             , Arg.Any<CancellationToken>()).Returns(products);
 
@@ -37,5 +37,4 @@ public class GetProductByIdTests
         result.IsSuccess.Should().BeTrue();
         result.Value.Should().NotBeNull();
     }
-    
 }
