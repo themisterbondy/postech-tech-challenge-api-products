@@ -1,12 +1,10 @@
-
-
 using FluentAssertions;
 using FluentValidation.TestHelper;
 using NSubstitute;
-using PosTech.Fiap.Products.WebApi.Features.Products.Commands;
+using Postech.Fiap.Products.WebApi.Features.Products.Commands;
 using Postech.Fiap.Products.WebApi.Features.Products.Contracts;
 using Postech.Fiap.Products.WebApi.Features.Products.Entities;
-using PosTech.Fiap.Products.WebApi.Features.Products.Repositories;
+using Postech.Fiap.Products.WebApi.Features.Products.Repositories;
 
 namespace Postech.Fiap.Products.WebApi.UnitTest.Features.Products.Commands;
 

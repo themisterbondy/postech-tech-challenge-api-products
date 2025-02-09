@@ -1,9 +1,9 @@
 using Postech.Fiap.Products.WebApi.Common.ResultPattern;
 using Postech.Fiap.Products.WebApi.Features.Products.Contracts;
 using Postech.Fiap.Products.WebApi.Features.Products.Entities;
-using PosTech.Fiap.Products.WebApi.Features.Products.Repositories;
+using Postech.Fiap.Products.WebApi.Features.Products.Repositories;
 
-namespace PosTech.Fiap.Products.WebApi.Features.Products.Queries;
+namespace Postech.Fiap.Products.WebApi.Features.Products.Queries;
 
 public abstract class ListProducts
 {

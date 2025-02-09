@@ -1,16 +1,15 @@
 using FluentAssertions;
 using NSubstitute;
 using Postech.Fiap.Products.WebApi.Features.Products.Entities;
-using PosTech.Fiap.Products.WebApi.Features.Products.Queries;
-using PosTech.Fiap.Products.WebApi.Features.Products.Repositories;
+using Postech.Fiap.Products.WebApi.Features.Products.Queries;
+using Postech.Fiap.Products.WebApi.Features.Products.Repositories;
 using Postech.Fiap.Products.WebApi.UnitTest.Features.Mocks;
 
-namespace PosTech.MyFood.WebApi.UnitTests.Features.Products.Queries;
+namespace Postech.Fiap.Products.WebApi.UnitTest.Features.Queries;
 
 public class ListProductsTests
 {
     private readonly ListProducts.ListProductsHandler _handler;
-    private readonly GetProductById.GetProductByIdHandler _gethandler;
     private readonly IProductRepository _productRepository;
 
     public ListProductsTests()
@@ -28,7 +27,6 @@ public class ListProductsTests
         {
             ProductMocks.GenerateValidProduct(),
             ProductMocks.GenerateValidProduct()
-
         };
 
         _productRepository.FindByCategoryAsync(category, Arg.Any<CancellationToken>()).Returns(products);
@@ -44,7 +42,6 @@ public class ListProductsTests
         result.Value.Products.Should().HaveCount(2);
         result.Value.Products.Should().BeEquivalentTo(products, options => options.ExcludingMissingMembers());
     }
-    
 
 
     [Fact]
