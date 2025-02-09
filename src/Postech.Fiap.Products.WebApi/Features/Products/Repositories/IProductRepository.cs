@@ -1,6 +1,6 @@
 using Postech.Fiap.Products.WebApi.Features.Products.Entities;
 
-namespace PosTech.Fiap.Products.WebApi.Features.Products.Repositories;
+namespace Postech.Fiap.Products.WebApi.Features.Products.Repositories;
 
 public interface IProductRepository
 {

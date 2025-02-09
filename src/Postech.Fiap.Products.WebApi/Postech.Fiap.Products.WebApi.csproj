@@ -13,7 +13,6 @@
         <PackageReference Include="Carter" Version="9.0.0"/>
         <PackageReference Include="FluentValidation.DependencyInjectionExtensions" Version="11.11.0"/>
         <PackageReference Include="MediatR" Version="12.4.1"/>
-        <PackageReference Include="Mongo2Go" Version="4.1.0" />
         <PackageReference Include="MongoDB.Driver" Version="3.1.0"/>
         <PackageReference Include="Quartz.AspNetCore" Version="3.13.1"/>
 
