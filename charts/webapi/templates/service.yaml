@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ include "products-webapi.fullname" . }}
+  labels:
+    {{- include "products-webapi.labels" . | nindent 4 }}
+spec:
+  type: {{ .Values.service.type }}
+  ports:
+    - protocol: TCP
+      port: {{ .Values.service.port }}
+      targetPort: {{ .Values.service.targetPort }}
+      name: 'http'
+  selector:
+    {{- include "products-webapi.selectorLabels" . | nindent 4 }}
