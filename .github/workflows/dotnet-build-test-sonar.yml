@@ -51,6 +51,9 @@ jobs:
       - name: 🚀 Restaurar dependências
         run: dotnet restore ${{ env.SOLUTION_FILE }}
 
+      - name: 🧹 Limpar build anterior
+        run: dotnet clean ${{ env.SOLUTION_FILE }}
+
       - name: 🔨 Compilar solução
         run: dotnet build ${{ env.SOLUTION_FILE }} --configuration Release --no-restore
 
@@ -67,21 +70,18 @@ jobs:
 
           dotnet build ${{ env.SOLUTION_FILE }} --configuration Release --no-restore --no-incremental
 
-          dotnet-coverage collect "dotnet test ${{ env.TEST_PROJECT }} --configuration Release --no-restore --collect 'Code Coverage'" \
-          -f xml -o "${{ env.COVERAGE_FILE }}"
+          dotnet-coverage collect "dotnet test ${{ env.TEST_PROJECT }} --configuration Release --no-restore" \
+            -f xml -o "${{ env.COVERAGE_FILE }}"
 
           dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
-#      - name: 🚦 Verificar qualidade do código no SonarCloud
-#        uses: sonarsource/sonarcloud-github-action@master
-#        env:
-#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-#        with:
-#          args: >
-#            -Dsonar.organization=${{ env.SONAR_ORG }}
-#            -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
-#            -Dsonar.cs.vscoveragexml.reportsPaths=${{ env.COVERAGE_FILE }}
-#            -Dsonar.sources=src/
-#            -Dsonar.tests=test/
-#            -Dsonar.test.exclusions="test/**"
-#            -Dsonar.verbose=true
+      - name: 🚦 Verificar Quality Gate no SonarCloud
+        id: sonarqube-quality-gate-check
+        if: ${{ exists('.sonarqube/out/.sonar/report-task.txt') }}
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        with:
+          pollingTimeoutSec: 600
+          scanMetadataReportFile: .sonarqube/out/.sonar/report-task.txt
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+          SONAR_HOST_URL: https://sonarcloud.io
