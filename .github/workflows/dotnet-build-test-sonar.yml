@@ -22,6 +22,7 @@ env:
   SONAR_HOST_URL: 'https://sonarcloud.io'
   COVERAGE_FILE: 'coverage.xml'
 
+
 jobs:
   build-and-test:
     name: Build, Test & SonarCloud Analysis
@@ -42,12 +43,17 @@ jobs:
         run: |
           dotnet tool install --global dotnet-sonarscanner
           dotnet tool install --global dotnet-coverage
-          export PATH="$PATH:$HOME/.dotnet/tools"
+
+      - name: 🔧 Configurar PATH para Ferramentas Globais
+        run: echo "$HOME/.dotnet/tools" >> $GITHUB_PATH
 
       - name: 🚀 Restaurar dependências
         run: dotnet restore ${{ env.SOLUTION_FILE }}
 
-      - name: 🧪 Rodar testes com cobertura e análise SonarCloud
+      - name: 🔨 Compilar solução
+        run: dotnet build ${{ env.SOLUTION_FILE }} --configuration Release --no-restore
+
+      - name: 🧪 Rodar testes e coletar cobertura
         run: |
           dotnet sonarscanner begin \
             /k:"${{ env.SONAR_PROJECT_KEY }}" \
@@ -58,12 +64,19 @@ jobs:
 
           dotnet build ${{ env.SOLUTION_FILE }} --configuration Release --no-restore
 
-          dotnet-coverage collect "dotnet test ${{ env.TEST_PROJECT }} --configuration Release --no-restore" \
+          dotnet-coverage collect "dotnet test ${{ env.TEST_PROJECT }} --configuration Release" \
             -f xml -o "${{ env.COVERAGE_FILE }}"
 
           dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
-      - name: 🚦 Verificar Quality Gate no SonarCloud
-        uses: sonarsource/sonarcloud-quality-gate-action@v1.1.0
+      - name: 📊 Publicar resultados de cobertura
+        id: sonarqube-quality-gate-check
+        uses: sonarsource/sonarqube-quality-gate-action@master
+        with:
+          pollingTimeoutSec: 600
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+
+
+      - name: 📊 Status do Quality Gate
+        run: echo "The Quality Gate status is ${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }}"
