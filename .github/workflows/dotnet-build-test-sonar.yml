@@ -62,8 +62,9 @@ jobs:
             /d:sonar.host.url="${{ env.SONAR_HOST_URL }}" \
             /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
             /d:sonar.cs.vscoveragexml.reportsPaths="${{ env.COVERAGE_FILE }}"
+            /d:sonar.analysis.cache.enabled=false
 
-          dotnet build ${{ env.SOLUTION_FILE }} --configuration Release --no-restore
+          dotnet build ${{ env.SOLUTION_FILE }} --configuration Release --no-restore --no-incremental
 
           dotnet-coverage collect "dotnet test ${{ env.TEST_PROJECT }} --configuration Release --no-restore" \
             -f xml -o "${{ env.COVERAGE_FILE }}"
