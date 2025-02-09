@@ -70,12 +70,16 @@ jobs:
 
           dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
-      - name: 🚦 Verificar Quality Gate no SonarCloud
-        id: sonarqube-quality-gate-check
-        uses: sonarsource/sonarqube-quality-gate-action@master
-        with:
-          pollingTimeoutSec: 600
-          scanMetadataReportFile: .sonarqube/out/.sonar/report-task.txt
+      - name: 🚦 Verificar qualidade do código no SonarCloud
+        uses: sonarsource/sonarcloud-github-action@master
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ env.SONAR_HOST_URL }}
+        with:
+          args: >
+            -Dsonar.organization=${{ env.SONAR_ORG }}
+            -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
+            -Dsonar.cs.vscoveragexml.reportsPaths=${{ env.COVERAGE_FILE }}
+            -Dsonar.sources=src/
+            -Dsonar.tests=test/
+            -Dsonar.test.exclusions="test/**"
+            -Dsonar.verbose=true
