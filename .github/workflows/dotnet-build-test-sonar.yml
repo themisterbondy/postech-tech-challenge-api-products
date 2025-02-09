@@ -69,15 +69,6 @@ jobs:
 
           dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
-      - name: 🔍 Verificar se o report-task.txt foi gerado
-        run: |
-          if [ -f ".sonarqube/out/.sonar/report-task.txt" ]; then
-            echo "✅ Arquivo encontrado!"
-          else
-            echo "❌ Arquivo não encontrado!"
-            exit 1
-          fi
-
       - name: 🚦 Verificar Quality Gate no SonarCloud
         id: sonarqube-quality-gate-check
         uses: sonarsource/sonarqube-quality-gate-action@master
