@@ -77,11 +77,10 @@ jobs:
 
       - name: 🚦 Verificar Quality Gate no SonarCloud
         id: sonarqube-quality-gate-check
-        if: ${{ exists('.sonarqube/out/.sonar/report-task.txt') }}
         uses: sonarsource/sonarqube-quality-gate-action@master
         with:
           pollingTimeoutSec: 600
           scanMetadataReportFile: .sonarqube/out/.sonar/report-task.txt
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: https://sonarcloud.io
+          SONAR_HOST_URL: ${{ env.SONAR_HOST_URL }}
