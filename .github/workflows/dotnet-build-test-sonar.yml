@@ -75,6 +75,11 @@ jobs:
 
           dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
+      - name: 📂 Verificar se o relatório de cobertura foi gerado
+        run: |
+          ls -lah ${{ env.COVERAGE_FILE }}
+          cat ${{ env.COVERAGE_FILE }} | head -n 20
+
       - name: 🚦 Verificar Quality Gate no SonarCloud
         id: sonarqube-quality-gate-check
         uses: sonarsource/sonarqube-quality-gate-action@master
