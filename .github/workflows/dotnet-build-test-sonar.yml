@@ -86,4 +86,4 @@ jobs:
           scanMetadataReportFile: .sonarqube/out/.sonar/report-task.txt  # ✅ Caminho corrigido
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-          SONAR_HOST_URL: ${{ env.SONAR_HOST_URL }}o "The Quality Gate status is ${{ steps.sonarqube-quality-gate-check.outputs.quality-gate-status }}"
+          SONAR_HOST_URL: ${{ secrets.SONAR_HOST_URL }}
