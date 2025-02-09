@@ -61,6 +61,9 @@ jobs:
           dotnet-coverage collect "dotnet test ${{ env.TEST_PROJECT }} --configuration Release --no-restore" \
             -f xml -o "${{ env.COVERAGE_FILE }}"
 
-          dotnet sonarscanner end \
-            /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
-            /d:sonar.qualitygate.wait=true  # 🚨 Espera e falha caso o Quality Gate não seja aprovado
+          dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
+
+      - name: 🚦 Verificar Quality Gate no SonarCloud
+        uses: sonarsource/sonarcloud-quality-gate-action@v1.1.0
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
