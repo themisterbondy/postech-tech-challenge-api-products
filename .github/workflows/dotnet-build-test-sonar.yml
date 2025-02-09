@@ -62,25 +62,26 @@ jobs:
             /d:sonar.host.url="${{ env.SONAR_HOST_URL }}" \
             /d:sonar.token="${{ secrets.SONAR_TOKEN }}" \
             /d:sonar.cs.vscoveragexml.reportsPaths="${{ env.COVERAGE_FILE }}" \
-            /d:sonar.analysis.cache.enabled=false
+            /d:sonar.analysis.cache.enabled=false /
+            /d:sonar.scanner.scanAll=false
 
           dotnet build ${{ env.SOLUTION_FILE }} --configuration Release --no-restore --no-incremental
 
-          dotnet-coverage collect "dotnet test ${{ env.TEST_PROJECT }} --configuration Release --no-restore" \
-            -f xml -o "${{ env.COVERAGE_FILE }}"
+          dotnet-coverage collect "dotnet test ${{ env.TEST_PROJECT }} --configuration Release --no-restore --collect 'Code Coverage'" \
+          -f xml -o "${{ env.COVERAGE_FILE }}"
 
           dotnet sonarscanner end /d:sonar.token="${{ secrets.SONAR_TOKEN }}"
 
-      - name: 🚦 Verificar qualidade do código no SonarCloud
-        uses: sonarsource/sonarcloud-github-action@master
-        env:
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.organization=${{ env.SONAR_ORG }}
-            -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
-            -Dsonar.cs.vscoveragexml.reportsPaths=${{ env.COVERAGE_FILE }}
-            -Dsonar.sources=src/
-            -Dsonar.tests=test/
-            -Dsonar.test.exclusions="test/**"
-            -Dsonar.verbose=true
+#      - name: 🚦 Verificar qualidade do código no SonarCloud
+#        uses: sonarsource/sonarcloud-github-action@master
+#        env:
+#          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+#        with:
+#          args: >
+#            -Dsonar.organization=${{ env.SONAR_ORG }}
+#            -Dsonar.projectKey=${{ env.SONAR_PROJECT_KEY }}
+#            -Dsonar.cs.vscoveragexml.reportsPaths=${{ env.COVERAGE_FILE }}
+#            -Dsonar.sources=src/
+#            -Dsonar.tests=test/
+#            -Dsonar.test.exclusions="test/**"
+#            -Dsonar.verbose=true
