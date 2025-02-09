@@ -20,4 +20,5 @@ app.UseMiddleware<RequestContextLoggingMiddleware>();
 app.MapCarter();
 app.Run();
 
+[ExcludeFromCodeCoverage]
 public partial class Program;
